@@ -1,6 +1,5 @@
 import psycopg2
 
-
 conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
 
 with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
@@ -9,7 +8,7 @@ with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
     result = cursor.fetchone() 
     print(result)
     
-    import psycopg2
+import psycopg2
 
 conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
 
@@ -36,7 +35,7 @@ with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
     print('результат вставки:', result)
     
   
-    import psycopg2
+import psycopg2
 
 conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
 with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
