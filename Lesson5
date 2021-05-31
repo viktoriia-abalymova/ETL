@@ -1,0 +1,64 @@
+import psycopg2
+
+
+conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
+
+with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
+    query = 'select * from NATION limit 2' 
+    cursor.execute(query) 
+    result = cursor.fetchone() 
+    print(result)
+    
+    import psycopg2
+
+conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
+
+with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
+    row = (-999, 'name', 0, 'comment') # кортеж для вставки
+    insert = """
+    insert into NATION  (
+           N_NATIONKEY   
+         , N_NAME       
+         , N_REGIONKEY   
+         , N_COMMENT 
+    )
+    values
+    ({values})
+    """.format(
+    # биндим параметры в строку, чтобы избежать sql-иньекций (best practice)
+    values=cursor.mogrify("%s, %s, %s, %s", row).decode('utf-8')
+    )
+    print('sql запрос:', insert)
+    cursor.execute(insert)
+    conn.commit() # комитим транзакцию
+    cursor.execute('select * from customer where c_custkey < 0')
+    result = cursor.fetchall()
+    print('результат вставки:', result)
+    
+  
+    import psycopg2
+
+conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
+with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
+    q = "COPY nation TO STDOUT WITH DELIMITER ',' CSV HEADER;"
+    with open('nation.csv', 'w') as f:
+        cursor.copy_expert(q, f)
+        
+        
+import pandas as pd
+pd.read_csv('nation.csv')
+
+import psycopg2
+
+conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
+with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
+    q = "COPY nation from STDIN WITH DELIMITER ',' CSV HEADER;"
+    with open('nation.csv', 'r') as f:
+        cursor.copy_expert(q, f)
+        
+import psycopg2
+
+conn_string= "host='localhost' port=54320 dbname='my_database' user='root' password='postgres'" 
+with psycopg2.connect(conn_string) as conn, conn.cursor() as cursor:
+    cursor.execute('select count(*) from nation')
+    print(cursor.fetchall())
